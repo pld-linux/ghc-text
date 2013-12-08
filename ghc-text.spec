@@ -1,13 +1,15 @@
 %define		pkgname	text
-Summary:	A Haskell binding to the text graphics library
+Summary:	A Haskell library for manipulation of Unicode text
+Summary(pl.UTF-8):	Biblioteka Haskella do operacji na tekście kodowanym w Unicode
 Name:		ghc-%{pkgname}
-Version:	0.11.2.3
-Release:	0.1
+Version:	1.0.0.0
+Release:	1
 License:	BSD
 Group:		Development/Languages
-Source0:	http://hackage.haskell.org/packages/archive/%{pkgname}/%{version}/%{pkgname}-%{version}.tar.gz
-# Source0-md5:	7a469d49a7576fb3a18785cb64d4ee6c
-URL:		http://hackage.haskell.org/package/text/
+#Source0Download: http://hackage.haskell.org/package/text
+Source0:	http://hackage.haskell.org/package/%{pkgname}-%{version}/%{pkgname}-%{version}.tar.gz
+# Source0-md5:	6c76d0b7a6e5d2f4e0d0359b28e4a3e2
+URL:		http://hackage.haskell.org/package/text
 BuildRequires:	ghc >= 6.12.3
 BuildRequires:	rpmbuild(macros) >= 1.608
 %requires_eq	ghc
@@ -17,18 +19,24 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_enable_debug_packages	0
 
 %description
-A Haskell binding to the text graphics library.
+This package provides the Data.Text library, a library for the space-
+and time-efficient manipulation of Unicode text in Haskell.
+
+%description -l pl.UTF-8
+Ten pakiet dostarcza bibliotekę Data.Text - służącą do wydajnych pod
+względem objętości i czasu operacji na tekście kodowanym w Unicode z
+poziomu Haskella.
 
 %package doc
-Summary:	HTML documentation for %{pkgname}
-Summary(pl.UTF-8):	Dokumentacja w formacie HTML dla %{pkgname}
+Summary:	HTML documentation for %{pkgname} ghc package
+Summary(pl.UTF-8):	Dokumentacja w formacie HTML dla pakietu ghc %{pkgname}
 Group:		Documentation
 
 %description doc
-HTML documentation for %{pkgname}.
+HTML documentation for %{pkgname} ghc package.
 
 %description doc -l pl.UTF-8
-Dokumentacja w formacie HTML dla %{pkgname}.
+Dokumentacja w formacie HTML dla pakietu ghc %{pkgname}.
 
 %prep
 %setup -q -n %{pkgname}-%{version}
@@ -68,6 +76,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
+%doc LICENSE README.markdown changelog
 %{_libdir}/%{ghcdir}/package.conf.d/%{pkgname}.conf
 %{_libdir}/%{ghcdir}/%{pkgname}-%{version}
 
