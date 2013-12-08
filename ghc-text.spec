@@ -1,3 +1,7 @@
+#
+# Conditional build:
+%bcond_without	prof	# profiling library
+#
 %define		pkgname	text
 Summary:	A Haskell library for manipulation of Unicode text
 Summary(pl.UTF-8):	Biblioteka Haskella do operacji na tekście kodowanym w Unicode
@@ -11,7 +15,7 @@ Source0:	http://hackage.haskell.org/package/%{pkgname}-%{version}/%{pkgname}-%{v
 # Source0-md5:	6c76d0b7a6e5d2f4e0d0359b28e4a3e2
 URL:		http://hackage.haskell.org/package/text
 BuildRequires:	ghc >= 6.12.3
-BuildRequires:	ghc-prof >= 6.12.3
+%{?with_prof:BuildRequires:	ghc-prof >= 6.12.3}
 BuildRequires:	rpmbuild(macros) >= 1.608
 %requires_eq	ghc
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -58,7 +62,7 @@ Dokumentacja w formacie HTML dla pakietu ghc %{pkgname}.
 
 %build
 runhaskell Setup.lhs configure -v2 \
-	--enable-library-profiling \
+	%{?with_prof:--enable-library-profiling} \
 	--prefix=%{_prefix} \
 	--libdir=%{_libdir} \
 	--libexecdir=%{_libexecdir} \
@@ -122,6 +126,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/%{ghcdir}/%{pkgname}-%{version}/Data/Text/Unsafe
 %{_libdir}/%{ghcdir}/%{pkgname}-%{version}/Data/Text/Unsafe/*.hi
 
+%if %{with prof}
 %files prof
 %defattr(644,root,root,755)
 %{_libdir}/%{ghcdir}/%{pkgname}-%{version}/libHStext-%{version}_p.a
@@ -137,6 +142,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/%{ghcdir}/%{pkgname}-%{version}/Data/Text/Lazy/Builder/RealFloat/*.p_hi
 %{_libdir}/%{ghcdir}/%{pkgname}-%{version}/Data/Text/Lazy/Encoding/*.p_hi
 %{_libdir}/%{ghcdir}/%{pkgname}-%{version}/Data/Text/Unsafe/*.p_hi
+%endif
 
 %files doc
 %defattr(644,root,root,755)
