@@ -15,13 +15,39 @@ Source0:	http://hackage.haskell.org/package/%{pkgname}-%{version}/%{pkgname}-%{v
 # Source0-md5:	6c76d0b7a6e5d2f4e0d0359b28e4a3e2
 URL:		http://hackage.haskell.org/package/text
 BuildRequires:	ghc >= 6.12.3
-%{?with_prof:BuildRequires:	ghc-prof >= 6.12.3}
+BuildRequires:	ghc-array >= 0.3
+BuildRequires:	ghc-base >= 4.2
+BuildRequires:	ghc-base < 5
+BuildRequires:	ghc-bytestring >= 0.9
+BuildRequires:	ghc-deepseq >= 1.1.0.0
+BuildRequires:	ghc-ghc-prim >= 0.2
+BuildRequires:	ghc-integer-gmp >= 0.2
+%if %{with prof}
+BuildRequires:	ghc-prof >= 6.12.3
+BuildRequires:	ghc-array-prof >= 0.3
+BuildRequires:	ghc-base-prof >= 4.2
+BuildRequires:	ghc-base-prof < 5
+BuildRequires:	ghc-bytestring-prof >= 0.9
+BuildRequires:	ghc-deepseq-prof >= 1.1.0.0
+BuildRequires:	ghc-ghc-prim-prof >= 0.2
+BuildRequires:	ghc-integer-gmp-prof >= 0.2
+%endif
 BuildRequires:	rpmbuild(macros) >= 1.608
 %requires_eq	ghc
+Requires:	ghc-array >= 0.3
+Requires:	ghc-base >= 4.2
+Requires:	ghc-base < 5
+Requires:	ghc-bytestring >= 0.9
+Requires:	ghc-deepseq >= 1.1.0.0
+Requires:	ghc-ghc-prim >= 0.2
+Requires:	ghc-integer-gmp >= 0.2
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 # debuginfo is not useful for ghc
 %define		_enable_debug_packages	0
+
+# don't compress haddock files
+%define		_noautocompressdoc	*.haddock
 
 %description
 This package provides the Data.Text library, a library for the space-
@@ -37,6 +63,13 @@ Summary:	Profiling %{pkgname} library for GHC
 Summary(pl.UTF-8):	Biblioteka profilująca %{pkgname} dla GHC
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+Requires:	ghc-array-prof >= 0.3
+Requires:	ghc-base-prof >= 4.2
+Requires:	ghc-base-prof < 5
+Requires:	ghc-bytestring-prof >= 0.9
+Requires:	ghc-deepseq-prof >= 1.1.0.0
+Requires:	ghc-ghc-prim-prof >= 0.2
+Requires:	ghc-integer-gmp-prof >= 0.2
 
 %description prof
 Profiling %{pkgname} library for GHC. Should be installed when
